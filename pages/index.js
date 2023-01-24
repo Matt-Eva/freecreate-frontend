@@ -3,10 +3,14 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
 import Test from '../components/test'
+import Link from "next/Link"
+import { TestContext } from '../context/test_context'
+import {useContext} from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const {testState, setTestState} = useContext(TestContext)
   return (
     <>
       <Head>
@@ -16,6 +20,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Test />
+      <Link href='/page_test'>Page Test </Link>
+      <p>testState: {testState}</p>
+      <button onClick={()=> setTestState(testState + 1)}>updateState</button>
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
