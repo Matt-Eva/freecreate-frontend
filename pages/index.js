@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
 // import { TestContext } from '../context/test_context'
-import {useContext} from 'react'
+import {useContext, useEffect} from 'react'
 
 import Header from "../components/Header/Header"
 import Sidebar from '../components/Sidebar/Sidebar'
@@ -13,6 +13,16 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   // const {testState, setTestState} = useContext(TestContext)
+
+  useEffect(() =>{
+    async function fetchData(){
+      const res = await fetch('http://localhost:4000/users')
+      const users = await res.json()
+      console.log(users)
+    }
+    fetchData()
+  }, [])
+
   return (
     <>
       <Head>
