@@ -1,0 +1,7 @@
+
+.header {
+    width: 100vw;
+    height: 80px;
+    grid-row: 1;
+    grid-column: 1;
+}
