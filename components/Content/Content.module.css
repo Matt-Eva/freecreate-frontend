@@ -1,0 +1,12 @@
+.content {
+    background-color: blue;
+    color: red;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+@media (min-width: 300px){
+    .content{
+        grid-column: 2;
+    }
+}
