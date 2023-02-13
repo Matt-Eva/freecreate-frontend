@@ -10,8 +10,12 @@ function Header() {
   const toggleOpenLogin = () => setOpenLogin(!openLogin)
   const toggleCreateAccount = () => setCreateAccount(!createAccount)
 
-  function login(e){
+  async function login(e){
     e.preventDefault()
+    const res = await fetch('http://localhost:4000/login')
+    console.log(res.body)
+    const data = res.json()
+    console.log(data)
   }
 
   function createNewAccount(e){
