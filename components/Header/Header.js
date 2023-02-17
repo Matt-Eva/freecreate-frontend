@@ -27,8 +27,7 @@ function Header() {
   async function login(e){
     e.preventDefault()
     const res = await fetch('http://localhost:4000/login')
-    console.log(res.body)
-    const data = res.json()
+    const data = await res.json()
     console.log(data)
   }
 
