@@ -3,23 +3,50 @@ import Modal from "@mui/material/Modal"
 import {useState} from "react"
 
 function Header() {
+  const createFormInitialState = {
+    username: '',
+    nickname: '',
+    password: '',
+    passwordConf: '',
+  }
+
   const [openLogin, setOpenLogin] = useState(false)
   const [createAccount, setCreateAccount] = useState(false)
-  console.log(openLogin)
+  const [createFormData, setCreateFormData] = useState(createFormInitialState)
+
+  console.log(createFormData)
 
   const toggleOpenLogin = () => setOpenLogin(!openLogin)
   const toggleCreateAccount = () => setCreateAccount(!createAccount)
 
+  function handleCreateChange(e){
+    setCreateFormData({...createFormData,
+    [e.target.name]: e.target.value })
+  }
+
   async function login(e){
     e.preventDefault()
     const res = await fetch('http://localhost:4000/login')
-    console.log(res.body)
-    const data = res.json()
+    const data = await res.json()
     console.log(data)
   }
 
-  function createNewAccount(e){
+  async function createNewAccount(e){
     e.preventDefault()
+    if (createFormData.password !== createFormData.passwordConf){
+      alert("Must enter matching passwords")
+      return
+    }
+    const config = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(createFormData)
+    }
+    const res = await fetch('http://localhost:4000/users', config)
+    const data = await res.json()
+    console.log(data)
   }
 
   return (
@@ -38,13 +65,15 @@ function Header() {
           { createAccount ?
           <div>
             <h3>Create Account</h3>
-            <form onSubmit={createNewAccount}>
-              <label for="username">Username</label>
+            <form onSubmit={createNewAccount} onChange={handleCreateChange}>
+              <label>Username</label>
               <input type="text" name="username" placeholder="enter username" />
-              <label for="password">Password</label>
+              <label>Nickname</label>
+              <input type="text" name="nickname" placeholder="enter nickname" />
+              <label>Password</label>
               <input type="password"name="password" placeholder="enter password"/>
-              <label for="password-conf">Password</label>
-              <input type="password"name="password-conf" placeholder="confirm password"/>
+              <label>Password</label>
+              <input type="password"name="passwordConf" placeholder="confirm password"/>
               <input type="submit" value="Create Account" />
             </form>
             <button onClick={toggleCreateAccount}>Login</button>
@@ -53,9 +82,9 @@ function Header() {
           <div>
             <h3>Login</h3>
             <form onSubmit={login}>
-              <label for="username">Username</label>
+              <label>Username</label>
               <input type="text" name="username" placeholder="enter username" />
-              <label for="password">Password</label>
+              <label>Password</label>
               <input type="password"name="password" placeholder="enter password"/>
               <input type="submit" value="Login" />
             </form>
