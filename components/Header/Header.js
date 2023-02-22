@@ -26,7 +26,12 @@ function Header() {
 
   async function login(e){
     e.preventDefault()
-    const res = await fetch('http://localhost:4000/login')
+    const res = await fetch('http://localhost:4000/login', {credentials: 'include'})
+    console.log(res)
+  }
+
+  async function logout(){
+    const res = await fetch('http://localhost:4000/logout', {credentials: 'include'})
     const data = await res.json()
     console.log(data)
   }
@@ -58,7 +63,8 @@ function Header() {
         <p>FAQs</p>
       </div>
       <div className={styles.login}>
-        <button onClick={toggleOpenLogin}>Login</button>
+        <button onClick={login}>Login</button>
+        <button onClick={logout}>Logout</button>
       </div>
       <Modal open={openLogin} onClose={toggleOpenLogin}>
         <div className={styles.login_modal}>
