@@ -28,6 +28,8 @@ function Header() {
     e.preventDefault()
     const res = await fetch('http://localhost:4000/login', {credentials: 'include'})
     console.log(res)
+    const data = await res.json()
+    console.log(data)
   }
 
   async function logout(){
