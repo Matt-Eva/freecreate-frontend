@@ -2,6 +2,7 @@ import Modal from "@mui/material/Modal"
 import styles from "./LoginModal.module.css"
 import {useState, useContext} from 'react'
 import { UserContext } from '../../context/user_context'
+import ProfileDropdown from "../ProfileDropdown/ProfileDropdown"
 
 function LoginModal() {
     const createFormInitialState = {
@@ -92,9 +93,13 @@ function LoginModal() {
   return (
     <div className={styles.login}>
             {user ? 
-            <button onClick={logout}>Logout</button>
+            <div className={styles.logout}>
+                <button onClick={logout} >Logout</button>
+                <ProfileDropdown />
+            </div>
             :
-            <button onClick={toggleOpenLogin}>Login</button>}
+                <button onClick={toggleOpenLogin}>Login</button>
+            }
         
         <Modal open={openLogin} onClose={toggleOpenLogin}>
             <div className={styles.login_modal}>
