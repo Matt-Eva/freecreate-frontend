@@ -5,7 +5,7 @@ import { UserContext } from '../context/user_context'
 
 export default function App({ Component, pageProps }) {
   const [user, setUser] = useState(null)
-  console.log(user)
+
   useEffect(() =>{
     console.log('running')
     async function getMe(){
