@@ -1,0 +1,15 @@
+.login{
+    grid-column: 4;
+    justify-self: right;
+    margin-right: 5px;
+}
+
+.login_modal{
+    width: 500px;
+    height: 500px;
+    background-color: white;
+    position: absolute;
+    top: 10%;
+    left: 31%;
+    padding: 50px 50px;
+}
