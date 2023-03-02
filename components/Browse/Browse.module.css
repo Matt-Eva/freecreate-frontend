@@ -1,0 +1,12 @@
+.browse{
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.selectGenre{
+    width: 150px;
+}
+
+.selectGenre option{
+    position: fixed;
+}
