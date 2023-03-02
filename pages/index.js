@@ -12,16 +12,7 @@ import Content from '../components/Content/Content'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  // const {testState, setTestState} = useContext(TestContext)
 
-  // useEffect(() =>{
-  //   async function fetchData(){
-  //     const res = await fetch('http://localhost:4000/users')
-  //     const users = await res.json()
-  //     console.log(users)
-  //   }
-  //   fetchData()
-  // }, [])
 
   return (
     <>

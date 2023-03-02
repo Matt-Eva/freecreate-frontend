@@ -1,8 +1,18 @@
 .content {
-    background-color: blue;
-    color: red;
     grid-row: 1;
     grid-column: 1;
+    
+    padding: 10px;
+
+    background-color: hsl(100, 50%, 90%);
+    
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10px;
+    justify-content: center;
+    align-content: flex-start;
+    
+    overflow: scroll;
 }
 
 @media (min-width: 300px){
