@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import UserContextProvider from '../context/user_context'
+import SearchResultContextProvider from '../context/search_results_context'
 import {useEffect, useState} from 'react'
 import { UserContext } from '../context/user_context'
 
@@ -27,8 +27,10 @@ export default function App({ Component, pageProps }) {
   }, [])
 
   return (
+    <SearchResultContextProvider>
     <UserContext.Provider value={{user, setUser}}>
       <Component {...pageProps} />
     </UserContext.Provider>
+    </SearchResultContextProvider>
   )
 }
