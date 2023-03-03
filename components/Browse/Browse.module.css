@@ -3,8 +3,9 @@
     grid-column: 2;
 }
 
-.selectGenre{
-    width: 150px;
+.genres{
+    height: 100px;
+    overflow: scroll;
 }
 
 .selectGenre option{

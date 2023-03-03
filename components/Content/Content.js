@@ -6,7 +6,7 @@ import StoryCard from '../StoryCard/StoryCard'
 function Content() {
   // const [stories, setStories] = useState([])
   const {searchResults,setSearchResults} = useContext(SearchResultContext)
-  console.log(searchResults)
+
   const fetchStories = async () =>{
     try {
       const res = await fetch("http://localhost:4000/stories")
