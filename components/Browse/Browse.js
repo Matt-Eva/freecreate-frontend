@@ -1,5 +1,6 @@
 import styles from './Browse.module.css'
 import {useState} from 'react'
+import { style } from '@mui/system'
 
 function Browse() {
 
@@ -21,10 +22,13 @@ function Browse() {
         thriller: [false, "Thriller"],
     }
 
+    const dateArray = ["Most Recent", "Past Day", "Past Week", "Past Month", "Past Year"]
+
     const [genres, setGenres] = useState(initialGenreState)
     const [selectedGenres, setSelectedGenres] = useState(["No Genre"])
-    console.log(selectedGenres)
-    const dateArray = ["Most Recent", "Past Day", "Past Week", "Past Month", "Past Year"]
+    const [newTag, setNewTag] = useState("")
+    const [tags, setTags] = useState([])
+
 
     const dateOptions = dateArray.map((date) =>{
         if (date === "Past Week"){
@@ -57,18 +61,42 @@ function Browse() {
             } else {
                 newGenres = selectedGenres.filter(genre => genre !== genres[e.target.id][1])
             }
+            newGenres.sort()
             setSelectedGenres(newGenres)
         }
     }
+
+    const addTag = (e) =>{
+        e.preventDefault()
+        if (tags.includes(newTag)){
+            setNewTag("")
+            return
+        }
+        setTags([...tags, newTag])
+        setNewTag("")
+    }
+    
+    const deleteTag = (e) =>{
+        console.log(e.target.textContent)
+        const oneLess = tags.filter(tag => tag !== e.target.textContent)
+        setTags(oneLess)
+    }
     
     const displayGenre= selectedGenres.join("-")
-    console.log(displayGenre)
+    
+    const displayTags = tags.map(tag =>{
+        return <span key={tag} onClick={deleteTag} className={styles.tag}>{tag}</span>
+    })
+
+    const disableNewTag = tags.length >= 5
 
   return (
     <div className={styles.browse}>
-        <label>Select Genre</label>
-        <br/>
+        <label className={styles.genreLabel}>Select Genre</label>
+        <br />
         <div className={styles.genres}>
+            
+
             <div>
                 <input type="checkbox" id="noGenre" checked={genres.noGenre} onChange={handleGenreSelection}/>
                 <label htmlFor="noGenre">No Genre - General Fiction</label>
@@ -130,12 +158,30 @@ function Browse() {
                 <label htmlFor="thriller">Thriller</label>
             </div> 
         </div>
+        <div className={styles.displayGenre}>
+            {displayGenre}
+        </div>
         <br/>
-        <label>Date Posted</label>
-        <br/>
-        <select defaultValue="Past Week">
-            {dateOptions}
-        </select>
+        <div className={styles.selectDate}>
+            <label>Date Posted</label>
+            <br/>
+            <select defaultValue="Past Week">
+                {dateOptions}
+            </select>
+        </div>
+        <div className={styles.tagSearch}>
+            <form className={styles.tagForm} onSubmit={addTag}>
+                <input type="text" value={newTag} onChange={(e) =>{setNewTag(e.target.value.toLowerCase())}} disabled={disableNewTag}/>
+                <input type="submit"  value="Add Tag" disabled={disableNewTag}/>
+            </form>
+            <div className={styles.addedTags}>
+                {displayTags}
+            </div>
+            <br/>
+            <br />
+            <button>Search</button>
+        </div>
+        
     </div>
   )
 }
