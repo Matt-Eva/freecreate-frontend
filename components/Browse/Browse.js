@@ -4,6 +4,8 @@ import { style } from '@mui/system'
 
 function Browse() {
 
+    console.log(process.env.NEXT_PUBLIC_BASE_URL)
+
     const initialGenreState = {
         noGenre: true,
         comedy: [false, "Comedy"],
@@ -28,6 +30,7 @@ function Browse() {
     const [selectedGenres, setSelectedGenres] = useState(["No Genre"])
     const [newTag, setNewTag] = useState("")
     const [tags, setTags] = useState([])
+    const [selectedDate, setSelectedDate] = useState("Past Week")
 
 
     const dateOptions = dateArray.map((date) =>{
@@ -80,6 +83,24 @@ function Browse() {
         console.log(e.target.textContent)
         const oneLess = tags.filter(tag => tag !== e.target.textContent)
         setTags(oneLess)
+    }
+
+    const search = async () =>{
+        const searchObj ={
+            genre: displayGenre,
+            tags: tags,
+            date: selectedDate
+        }
+        const configObj = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(searchObj)
+        }
+       const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/search", configObj)
+       const data = await res.json()
+       console.log(data)
     }
     
     const displayGenre= selectedGenres.join("-")
@@ -165,7 +186,7 @@ function Browse() {
         <div className={styles.selectDate}>
             <label>Date Posted</label>
             <br/>
-            <select defaultValue="Past Week">
+            <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)}>
                 {dateOptions}
             </select>
         </div>
@@ -179,7 +200,7 @@ function Browse() {
             </div>
             <br/>
             <br />
-            <button>Search</button>
+            <button onClick={search}>Search</button>
         </div>
         
     </div>
