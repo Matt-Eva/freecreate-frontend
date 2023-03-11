@@ -4,7 +4,6 @@ import { style } from '@mui/system'
 
 function Browse() {
 
-    console.log(process.env.NEXT_PUBLIC_BASE_URL)
 
     const initialGenreState = {
         noGenre: true,
@@ -50,16 +49,13 @@ function Browse() {
                 noGenre: false
             })
             let newGenres = [...selectedGenres]
-            if(selectedGenres[0]==="No Genre"){
-                console.log("1")
+            if(selectedGenres[0]==="No Genre"){  
                 newGenres = [genres[e.target.id][1]]
             }else if (genres[e.target.id][0] && selectedGenres.length === 1){
-                console.log("2")
                 newGenres = ["No Genre"]
                 setGenres(initialGenreState)
             }
             else if (!genres[e.target.id][0]){
-                console.log(3, newGenres.length, selectedGenres)
                 newGenres.push(genres[e.target.id][1])
             } else {
                 newGenres = selectedGenres.filter(genre => genre !== genres[e.target.id][1])
@@ -80,7 +76,6 @@ function Browse() {
     }
     
     const deleteTag = (e) =>{
-        console.log(e.target.textContent)
         const oneLess = tags.filter(tag => tag !== e.target.textContent)
         setTags(oneLess)
     }
@@ -109,7 +104,8 @@ function Browse() {
         return <span key={tag} onClick={deleteTag} className={styles.tag}>{tag}</span>
     })
 
-    const disableNewTag = tags.length >= 5
+    const disableNewTagField = tags.length >= 5 
+    const disableNewTagButton = tags.length >= 5 || newTag === ""
 
   return (
     <div className={styles.browse}>
@@ -192,8 +188,8 @@ function Browse() {
         </div>
         <div className={styles.tagSearch}>
             <form className={styles.tagForm} onSubmit={addTag}>
-                <input type="text" value={newTag} onChange={(e) =>{setNewTag(e.target.value.toLowerCase())}} disabled={disableNewTag}/>
-                <input type="submit"  value="Add Tag" disabled={disableNewTag}/>
+                <input type="text" value={newTag} onChange={(e) =>{setNewTag(e.target.value.toLowerCase())}} disabled={disableNewTagField}/>
+                <input type="submit"  value="Add Tag" disabled={disableNewTagButton}/>
             </form>
             <div className={styles.addedTags}>
                 {displayTags}
