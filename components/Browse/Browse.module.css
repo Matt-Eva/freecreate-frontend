@@ -1,0 +1,57 @@
+.browse{
+    grid-row: 1;
+    grid-column: 2;
+
+    display: grid;
+    grid-template-rows: 200px;
+    grid-template-columns: 150px 100px calc(100vw - 450px);
+    gap: 10px;
+}
+
+.genreLabel{
+    grid-row: 1;
+    grid-column: 1;
+    margin-bottom: 10px;
+}
+
+.genres{
+    grid-row: 1;
+    grid-column: 1;
+    height: 150px;
+    overflow: scroll;
+    margin-top: 20px;
+    border: solid;
+    border-width: .5px;
+    padding: 4px;
+}
+
+.displayGenre {
+    grid-row: 1;
+    grid-column: 1;
+    margin-top: 170px;
+}
+
+
+.selectDate{
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.tagSearch{
+    grid-row: 1;
+    grid-column: 3;
+}
+
+.tag{
+    background-color: hsl(80, 10%, 90%);
+    border-radius: 5px;
+    margin: 0px 2px; 
+}
+
+.tagForm{
+
+}
+
+.addedTags{
+
+}

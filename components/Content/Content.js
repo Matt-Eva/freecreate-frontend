@@ -6,12 +6,19 @@ import StoryCard from '../StoryCard/StoryCard'
 function Content() {
   // const [stories, setStories] = useState([])
   const {searchResults,setSearchResults} = useContext(SearchResultContext)
-  console.log(searchResults)
+
   const fetchStories = async () =>{
     try {
       const res = await fetch("http://localhost:4000/stories")
       const data = await res.json()
-      setSearchResults(data)
+      const removeDuplicates = data.relRankStories.filter(story =>{
+        return !data.rankStories.find(s => s._id === story._id)
+      })
+      const results = {
+          rankStories: data.rankStories,
+          relRankStories: removeDuplicates
+      }
+      setSearchResults(results)
     } catch (error){
       console.error(error)
     }
@@ -24,13 +31,23 @@ function Content() {
     }
   }, [])
 
-  const storyCards = searchResults.map((story) =>{
+  const rankStoryCards = searchResults.rankStories?.map((story) =>{
+    return <StoryCard key={story._id} {...story} />
+  })
+  
+  const relRankStoryCards = searchResults.relRankStories?.map((story) =>{
     return <StoryCard key={story._id} {...story} />
   })
 
   return (
     <div className={styles.content}>
-      {storyCards}
+      {(rankStoryCards && relRankStoryCards) && (rankStoryCards.length === 0 && relRankStoryCards.length === 0) ? <p>That search produced no results! Please try a different search.</p>: null}
+      <div className={styles.rank}>
+        {rankStoryCards}
+      </div>
+      <div className={styles.relRank}>
+        {relRankStoryCards}
+      </div>
     </div>
   )
 }
