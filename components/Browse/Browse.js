@@ -1,5 +1,6 @@
 import styles from './Browse.module.css'
-import {useState} from 'react'
+import {useState, useContext} from 'react'
+import { SearchResultContext } from '../../context/search_results_context'
 import { style } from '@mui/system'
 
 function Browse() {
@@ -25,6 +26,7 @@ function Browse() {
 
     const dateArray = ["Most Recent", "Past Day", "Past Week", "Past Month", "Past Year"]
 
+    const {searchResults, setSearchResults} = useContext(SearchResultContext)
     const [genres, setGenres] = useState(initialGenreState)
     const [selectedGenres, setSelectedGenres] = useState(["No Genre"])
     const [newTag, setNewTag] = useState("")
@@ -95,6 +97,14 @@ function Browse() {
         }
        const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/search", configObj)
        const data = await res.json()
+       const removeDuplicates = data.relRankStories.filter(story =>{
+           return !data.rankStories.find(s => s._id === story._id)
+       })
+       const results = {
+           rankStories: data.rankStories,
+           relRankStories: removeDuplicates
+       }
+       setSearchResults(results)
        console.log(data)
     }
     
