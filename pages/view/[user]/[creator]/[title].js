@@ -25,6 +25,7 @@ export async function getServerSideProps(context){
         // console.log(story)
     } catch (error){
         console.error(error)
+        data = {error: "There was an error when fetching this story."}
     }
     
     return{
