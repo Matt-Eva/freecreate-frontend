@@ -1,3 +1,7 @@
+import styles from "../../../../styles/View.module.css"
+import Header from "../../../../components/Header/Header"
+import Sidebar from "../../../../components/Sidebar/Sidebar"
+import ViewWriting from "../../../../components/ViewWriting/ViewWriting"
 import Link from "next/link"
 import clientPromise from "../../../../lib/connect"
 
@@ -5,8 +9,12 @@ export default function View({story}){
     console.log("hello")
     console.log(story)
     return (
-        <div>
-            <Link href="/">Home</Link>
+        <div className={styles.view}>
+            <Header />
+            <div className={styles.main}>
+                <Sidebar />
+                <ViewWriting story={story}/>
+            </div>
         </div>
     )
 }
