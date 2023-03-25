@@ -1,10 +1,9 @@
 import styles from './Browse.module.css'
 import {useState, useContext} from 'react'
 import { SearchResultContext } from '../../context/search_results_context'
-import { style } from '@mui/system'
+
 
 function Browse() {
-
 
     const initialGenreState = {
         noGenre: true,

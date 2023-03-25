@@ -1,0 +1,10 @@
+.viewWriting {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+@media (min-width: 300px){
+    .viewWriting {
+        grid-column: 2;
+    }
+}

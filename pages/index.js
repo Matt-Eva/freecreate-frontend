@@ -9,11 +9,14 @@ import Header from "../components/Header/Header"
 import Sidebar from '../components/Sidebar/Sidebar'
 import Content from '../components/Content/Content'
 import Browse from '../components/Browse/Browse'
+import clientPromise from "../lib/connect"
+import {myVar} from "../lib/test"
+
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
-
+export default function Home({data}) {
+  console.log(data)
 
   return (
     <>
@@ -33,4 +36,16 @@ export default function Home() {
       </div>
     </>
   )
+}
+
+
+export async function getServerSideProps(context){
+  try {
+    await clientPromise
+  } catch(error){
+    console.error(error)
+  }
+  return{
+    props: {data: "data"}
+  }
 }
