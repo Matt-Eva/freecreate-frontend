@@ -4,6 +4,7 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import IconButton from "@mui/material/IconButton";
+import Link from "next/link"
 import {useState} from 'react'
 
 function ProfileDropdown() {
