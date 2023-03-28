@@ -1,25 +1,46 @@
-import styles from "./WritingForm.module.css"
-import { useState } from "react"
+import styles from "./WritingForm.module.css";
+import { useState } from "react";
+import dynamic from "next/dynamic"
+const ReactQuill = dynamic(() => import("react-quill"), {ssr:false})
+import DOMPurify from 'dompurify'
+
+import 'react-quill/dist/quill.snow.css';
 
 function WritingForm() {
-    const [formInput, setFormInput] = useState()
+    const [value, setValue] = useState('');
 
-    const handleSelection = (e) =>{
-        console.log(document.getSelection().anchorNode)
-    }
+    console.log(value)
 
-    const handleChange = (e) =>{
-        console.log(e.target.childNodes)
-        console.log(e.target.innerHTML)
-       
+    const quillModules = {
+        toolbar: [
+          [{ header: '1' }, { header: '2' }, { font: [] }],
+          [{ size: [] }],
+          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+          [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+          ['link', 'image', 'video'],
+          ['clean']
+        ]
+      };
+    const quillFormats = [    'header',    'font',    'size',    'bold',    'italic',    'underline',    'strike',    'blockquote',    'list',    'bullet',    'indent',    'link',    'image',    'video'  ];
+    
+    const handleChange = (e) => {
+        const clean = DOMPurify.sanitize(e)
+        console.log(clean)
     }
 
   return (
-    <div>
-        <div contentEditable={true} className={styles.writingForm} onInput={handleChange} onSelect={handleSelection}>
+      <div>
+        <ReactQuill 
+        theme="snow" 
+        value={value} 
+        onChange={handleChange} 
+        modules={quillModules}
+        formats={quillFormats}
+        placeholder="Start writing..."
+        className={styles.writingForm}
+        />
         </div>
-    </div>
-  )
+  );
 }
 
 export default WritingForm

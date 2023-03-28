@@ -1,8 +1,9 @@
 .writingForm {
-    background-color: hsl(0, 0%, 97%);
+    /* background-color: hsl(0, 0%, 97%);
     border: solid;
     border-width: 1px;
     border-color: hsl(0, 0%, 80%);
-    outline: 0px solid transparent;
+    outline: 0px solid transparent; */
     height: calc(100vh - 80px);
 }
+
