@@ -121,8 +121,6 @@ function Browse() {
         <label className={styles.genreLabel}>Select Genre</label>
         <br />
         <div className={styles.genres}>
-            
-
             <div>
                 <input type="checkbox" id="noGenre" checked={genres.noGenre} onChange={handleGenreSelection}/>
                 <label htmlFor="noGenre">No Genre - General Fiction</label>

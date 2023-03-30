@@ -6,7 +6,7 @@
 
 .main {
     display: grid;
-    grid-template-rows:calc(100vh - 80px);
+    grid-template-rows: calc(100vh - 80px);
     grid-template-columns: 100vw;
 }
 
