@@ -1,0 +1,11 @@
+.writingForm {
+    /* background-color: hsl(0, 0%, 97%);
+    border: solid;
+    border-width: 1px;
+    border-color: hsl(0, 0%, 80%);
+    outline: 0px solid transparent; */
+    grid-row: 1;
+    height: calc(100vh - 500px);
+    margin-bottom: 70px;
+}
+

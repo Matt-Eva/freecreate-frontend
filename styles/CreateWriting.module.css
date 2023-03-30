@@ -1,0 +1,17 @@
+.createWriting {
+    display: grid;
+    grid-template-rows: 80px calc(100vh - 80px);
+    grid-template-columns: 100vw;
+}
+
+.main {
+    display: grid;
+    grid-template-rows: calc(100vh - 80px);
+    grid-template-columns: 100vw;
+}
+
+@media (min-width: 300px){
+    .main{
+        grid-template-columns: 200px calc(100vw - 200px);
+    }
+}
