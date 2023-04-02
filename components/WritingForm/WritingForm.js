@@ -43,6 +43,7 @@ function WritingForm() {
   const [selectedGenres, setSelectedGenres] = useState(["No Genre"]);
   const [newTag, setNewTag] = useState("")
   const [tags, setTags] = useState([])
+  const [submission, setSubmission] = useState([])
 
   const displayGenre = [...selectedGenres].join("-")
 
@@ -111,71 +112,92 @@ function WritingForm() {
     const structuredArray = []
     let i = 0
     while(i < splitArray.length){
-        console.log("running")
-        console.log(i)
         if (splitArray[i] === ''){
             i++
             continue
         } else if (splitArray[i] === '<p>'){
             let d = i
-            const subArray = []
-            while(splitArray[d] !== '</p>'){
-                subArray.push(splitArray[d])
-                d++
+            const contentObj = {
+                type: "p",
+                content: []
             }
-            subArray.push('</p>')
-            structuredArray.push(subArray)
-            console.log(subArray)
+            const subArray = []
+            while(splitArray[d + 1] !== '</p>'){
+                d++
+                subArray.push(splitArray[d])
+            }
+            contentObj.content = subArray
+            structuredArray.push(contentObj)
         } else if (splitArray[i] === '<h1>'){
             let d = i
+            const contentObj = {
+                type: "h1",
+                content: []
+            }
             const subArray = []
             while(splitArray[d] !== '</h1>'){
                 subArray.push(splitArray[d])
                 d++
             }
             subArray.push('</h1>')
-            structuredArray.push(subArray)
-            console.log(subArray)
+            contentObj.content = subArray
+            structuredArray.push(contentObj)
         } else if (splitArray[i] === '<h2>'){
             let d = i
+            const contentObj = {
+                type: "h2",
+                content: []
+            }
             const subArray = []
             while(splitArray[d] !== '</h2>'){
                 subArray.push(splitArray[d])
                 d++
             }
             subArray.push('</h2>')
-            structuredArray.push(subArray)
-            console.log(subArray)
+            contentObj.content = subArray
+            structuredArray.push(contentObj)
         } else if (splitArray[i] === '<blockquote>'){
             let d = i
+            const contentObj = {
+                type: "blockquote",
+                content: []
+            }
             const subArray = []
             while(splitArray[d] !== '</blockquote>'){
                 subArray.push(splitArray[d])
                 d++
             }
             subArray.push('</blockquote>')
-            structuredArray.push(subArray)
-            console.log(subArray)
+            contentObj.content = subArray
+            structuredArray.push(contentObj)
         } else if (splitArray[i] === '<ol>'){
             let d = i
+            const contentObj = {
+                type: "ol",
+                content: []
+            }
             const subArray = []
             while(splitArray[d] !== '</ol>'){
                 subArray.push(splitArray[d])
                 d++
             }
             subArray.push('</ol>')
-            structuredArray.push(subArray)
-            console.log(subArray)
+            contentObj.content = subArray
+            structuredArray.push(contentObj)
         }else if (splitArray[i] === '<ul>'){
             let d = i
+            const contentObj = {
+                type: "ul",
+                content: []
+            }
             const subArray = []
             while(splitArray[d] !== '</ul>'){
                 subArray.push(splitArray[d])
                 d++
             }
             subArray.push('</ul>')
-            structuredArray.push(subArray)
-            console.log(subArray)
+            contentObj.content = subArray
+            structuredArray.push(contentObj)
         }
         i++
     }
@@ -196,7 +218,29 @@ function WritingForm() {
     // }
     // fetch(process.env.NEXT_PUBLIC_BASE_URL + "/stories", configObj)
   }
-    
+
+  const submissionContent = submission.map(el =>{
+     if (el.type === "p"){
+         let content = <strong></strong>
+         let i = 0
+         while (i < el.content.length){
+            if (el.content[i] === "<strong>"){
+                let d = i
+                let strongArray = []
+                while (el.content[d] !== "</strong>"){
+                    if (el.content[d] === "<em>"){
+                        let q = d
+                        while(el.content[q] !== "</em>"){
+
+                        }
+                    }
+                }
+                const strongEl = <strong>{strongArray}</strong>
+            }
+         }
+        }
+  })
+    const jsxArray = [<em>I have content</em>, "I also have content"]
 
   return (
       <div>
@@ -209,8 +253,9 @@ function WritingForm() {
         placeholder="Start writing..."
         className={styles.writingForm}
         />
-        <div>
-        </div>
+        <strong>
+            {jsxArray}
+        </strong>
          <div className={styles.genres}>
             <div>
                 <input type="checkbox" id="noGenre" checked={genres.noGenre} onChange={handleGenreSelection}/>
