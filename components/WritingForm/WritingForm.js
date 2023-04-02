@@ -30,14 +30,12 @@ function WritingForm() {
   const quillModules = {
     toolbar: [
       [{ header: '1' }, { header: '2' }, { font: [] }],
-      [{ size: [] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-      ['link', 'image', 'video'],
-      ['clean']
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link', 'image'],
     ]
   };
-  const quillFormats = [    'header',    'font',    'size',    'bold',    'italic',    'underline',    'strike',    'blockquote',    'list',    'bullet',    'indent',    'link',    'image',    'video'  ];
+  const quillFormats = [    'header',    'font',    'size',    'bold',    'italic',    'underline',    'strike',    'blockquote',    'list',    'bullet',    'indent',    'link',    'image'  ];
 
 
   const [content, setContent] = useState('');
@@ -56,8 +54,8 @@ function WritingForm() {
   const disableNewTagButton = tags.length >= 5 || newTag === ""
   
   const handleChange = (e) => {
-      const clean = DOMPurify.sanitize(e)
-      setContent(clean)
+    const clean = DOMPurify.sanitize(e)
+    setContent(clean)
   }
 
   const handleGenreSelection = (e) =>{
@@ -101,20 +99,102 @@ function WritingForm() {
     setNewTag("")
   }
 
+  function cleanContent(content){
+    console.log(typeof content)
+    console.log(content)
+    
+  }
+
   async function post() {
-    const newWriting = {
-      content: content,
-      genre: displayGenre,
-      tags: tags
+
+    const splitArray = content.split(/(<.*?>)/)
+    const structuredArray = []
+    let i = 0
+    while(i < splitArray.length){
+        console.log("running")
+        console.log(i)
+        if (splitArray[i] === ''){
+            i++
+            continue
+        } else if (splitArray[i] === '<p>'){
+            let d = i
+            const subArray = []
+            while(splitArray[d] !== '</p>'){
+                subArray.push(splitArray[d])
+                d++
+            }
+            subArray.push('</p>')
+            structuredArray.push(subArray)
+            console.log(subArray)
+        } else if (splitArray[i] === '<h1>'){
+            let d = i
+            const subArray = []
+            while(splitArray[d] !== '</h1>'){
+                subArray.push(splitArray[d])
+                d++
+            }
+            subArray.push('</h1>')
+            structuredArray.push(subArray)
+            console.log(subArray)
+        } else if (splitArray[i] === '<h2>'){
+            let d = i
+            const subArray = []
+            while(splitArray[d] !== '</h2>'){
+                subArray.push(splitArray[d])
+                d++
+            }
+            subArray.push('</h2>')
+            structuredArray.push(subArray)
+            console.log(subArray)
+        } else if (splitArray[i] === '<blockquote>'){
+            let d = i
+            const subArray = []
+            while(splitArray[d] !== '</blockquote>'){
+                subArray.push(splitArray[d])
+                d++
+            }
+            subArray.push('</blockquote>')
+            structuredArray.push(subArray)
+            console.log(subArray)
+        } else if (splitArray[i] === '<ol>'){
+            let d = i
+            const subArray = []
+            while(splitArray[d] !== '</ol>'){
+                subArray.push(splitArray[d])
+                d++
+            }
+            subArray.push('</ol>')
+            structuredArray.push(subArray)
+            console.log(subArray)
+        }else if (splitArray[i] === '<ul>'){
+            let d = i
+            const subArray = []
+            while(splitArray[d] !== '</ul>'){
+                subArray.push(splitArray[d])
+                d++
+            }
+            subArray.push('</ul>')
+            structuredArray.push(subArray)
+            console.log(subArray)
+        }
+        i++
     }
-    const configObj = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newWriting)
-    }
-    fetch(process.env.NEXT_PUBLIC_BASE_URL + "/stories", configObj)
+    console.log(structuredArray)
+      
+      const clean = cleanContent(content)
+    // const newWriting = {
+    //   content: content,
+    //   genre: displayGenre,
+    //   tags: tags
+    // }
+    // const configObj = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(newWriting)
+    // }
+    // fetch(process.env.NEXT_PUBLIC_BASE_URL + "/stories", configObj)
   }
     
 
@@ -129,6 +209,8 @@ function WritingForm() {
         placeholder="Start writing..."
         className={styles.writingForm}
         />
+        <div>
+        </div>
          <div className={styles.genres}>
             <div>
                 <input type="checkbox" id="noGenre" checked={genres.noGenre} onChange={handleGenreSelection}/>
