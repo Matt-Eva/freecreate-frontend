@@ -220,106 +220,175 @@ function WritingForm() {
     // fetch(process.env.NEXT_PUBLIC_BASE_URL + "/stories", configObj)
   }
 
+  function formatContent(content){
+    let contentArray = []
+    let i = 0
+    while (i < content.length){
+        i++
+        if (content[i] === "<br>"){
+            contentArray.push(<br/>)
+        }
+        else if (content[i] === "<strong>"){
+            let d = i
+            let strongArray = []
+            while (content[d + 1] !== "</strong>"){
+                d++
+                if (content[d] === "<em>"){
+                    let q = d
+                    let emArray = []
+                    while(content[q + 1] !== "</em>"){
+                        q++
+                        if (content[q] === "<s>"){
+                            let z = q
+                            let sArray = []
+                            while (content[z + 1] !== "</s>"){
+                                z++
+                                if (content[z] === "<u>"){
+                                    let w = z
+                                    let uArray = []
+                                    while(content[w + 1] !=="</u>"){
+                                        w++
+                                        uArray.push(content[w])
+                                    }
+                                    const uString = <u>{uArray}</u>
+                                    sArray.push(uString)
+                                    z = w + 1
+                                } else{
+                                    sArray.push(content[z])
+                                }
+                            }
+                            const sString = <u>{sArray}</u>
+                            emArray.push(sString)
+                            q = z + 1
+                        } else if (content[q] === "<u>"){
+                            let s = q
+                            let uArray = []
+                            while(content[s+1] !=="</u>"){
+                                s++
+                                uArray.push(content[s])
+                            }
+                            const uString = <u>{uArray}</u>
+                            emArray.push(uString)
+                            q = s + 1
+                        } else {
+                            emArray.push(content[q])
+                        }
+                    }
+                    d = q + 1
+                    const emString = <em>{emArray}</em>
+                    strongArray.push(emString)
+                } else if (content[d] === "<s>"){
+                    let s = d
+                    let sArray = []
+                    while (content[s + 1] !== "</s>"){
+                        s++
+                        if (content[s] === "<u>"){
+                            let w = s
+                            let uArray = []
+                            while(content[w + 1] !=="</u>"){
+                                w++
+                                uArray.push(content[w])
+                            }
+                            const uString = <s>{uArray}</s>
+                            sArray.push(uString)
+                            sArray = w + 1
+                        } else{
+                            sArray.push(content[s])
+                        }
+                    }
+                    const uString = <u>{uArray}</u>
+                    strongArray.push(uString)
+                    d = u + 1
+                } else if (content[d] === "<u>"){
+                    let w = d
+                    let uArray = []
+                    while(content[w + 1] !=="</u>"){
+                        w++
+                        uArray.push(content[w])
+                    }
+                    const uString = <s>{uArray}</s>
+                    strongArray.push(uString)
+                    d = w + 1
+                } else {
+                    strongArray.push(content[d])
+                }
+            }
+            const strongEl = <strong>{strongArray}</strong>
+            contentArray.push(strongEl)
+        } else if (content[i] === "<em>"){
+            let q = i
+            let emArray = []
+            while(content[q + 1] !== "</em>"){
+                q++
+                if (content[q] === "<s>"){
+                    let z = q
+                    let sArray = []
+                    while (content[z + 1] !== "</s>"){
+                        z++
+                        if (content[z] === "<u>"){
+                            let w = z
+                            let uArray = []
+                            while(content[w + 1] !=="</u>"){
+                                w++
+                                uArray.push(content[w])
+                            }
+                            const uString = <u>{uArray}</u>
+                            sArray.push(uString)
+                            z = w + 1
+                        } else{
+                            sArray.push(content[z])
+                        }
+                    }
+                    const sString = <u>{sArray}</u>
+                    emArray.push(sString)
+                    q = z + 1
+                } else if (content[q] === "<u>"){
+                    let s = q
+                    let uArray = []
+                    while(content[s+1] !=="</u>"){
+                        s++
+                        uArray.push(content[s])
+                    }
+                    const uString = <u>{uArray}</u>
+                    emArray.push(uString)
+                    q = s + 1
+                } else {
+                    emArray.push(content[q])
+                }
+            }
+            i = q + 1
+            const emString = <em>{emArray}</em>
+            contentArray.push(emString)
+        }
+    }
+    return contentArray
+  }
+
   const submissionContent = submission.map(el =>{
      if (el.type === "p"){
-         let contentArray = []
-         let i = 0
-         while (i < el.content.length){
-            i++
-             if (el.content[i] === "<br>"){
-                 contentArray.push(<br/>)
-             }
-            else if (el.content[i] === "<strong>"){
-                let d = i
-                let strongArray = []
-                while (el.content[d + 1] !== "</strong>"){
-                    d++
-                    if (el.content[d] === "<em>"){
-                        let q = d
-                        let emArray = []
-                        while(el.content[q + 1] !== "</em>"){
-                            q++
-                            if (el.content[q] === "<s>"){
-                                let z = q
-                                let sArray = []
-                                while (el.content[z + 1] !== "</s>"){
-                                    z++
-                                    if (el.content[z] === "<u>"){
-                                        let w = z
-                                        let uArray = []
-                                        while(el.content[w + 1] !=="</u>"){
-                                            w++
-                                            uArray.push(el.content[w])
-                                        }
-                                        const uString = <u>{uArray}</u>
-                                        sArray.push(uString)
-                                        z = w + 1
-                                    } else{
-                                        sArray.push(el.content[z])
-                                    }
-                                }
-                                const sString = <u>{sArray}</u>
-                                emArray.push(sString)
-                                q = z + 1
-                            } else if (el.content[q] === "<u>"){
-                                let s = q
-                                let uArray = []
-                                while(el.content[s+1] !=="</u>"){
-                                    s++
-                                    uArray.push(el.content[s])
-                                }
-                                const uString = <u>{uArray}</u>
-                                emArray.push(uString)
-                                q = s + 1
-                            } else {
-                                emArray.push(el.content[q])
-                            }
-                        }
-                        d = q + 1
-                        const emString = <em>{emArray}</em>
-                        strongArray.push(emString)
-                    } else if (el.content[d] === "<u>"){
-                        let u = d
-                        let uArray = []
-                        while (el.content[u + 1] !== "</u>"){
-                            u++
-                            if (el.content[u] === "<s>"){
-                                let w = u
-                                let sArray = []
-                                while(el.content[w + 1] !=="</s>"){
-                                    w++
-                                    sArray.push(el.content[w])
-                                }
-                                const sString = <s>{sArray}</s>
-                                uArray.push(sString)
-                                u = w + 1
-                            } else{
-                                uArray.push(el.content[u])
-                            }
-                        }
-                        const uString = <u>{uArray}</u>
-                        strongArray.push(uString)
-                        d = u + 1
-                    } else if (el.content[d] === "<s>"){
-                        let w = d
-                        let sArray = []
-                        while(el.content[w + 1] !=="</s>"){
-                            w++
-                            sArray.push(el.content[w])
-                        }
-                        const sString = <s>{sArray}</s>
-                        strongArray.push(sString)
-                        d = w + 1
-                    } else {
-                        strongArray.push(el.content[d])
-                    }
-                }
-                const strongEl = <strong>{strongArray}</strong>
-                contentArray.push(strongEl)
-            }
-        }
+        const contentArray = formatContent(el.content)    
         const pTag = <p>{contentArray}</p>
         return pTag
+    } else if (el.type === "h1"){
+        const contentArray = formatContent(el.content)
+        const hTag = <h1>{contentArray}</h1>
+        return hTag
+    } else if (el.type === "h2"){
+        const contentArray = formatContent(el.content)
+        const hTag = <h2>{contentArray}</h2>
+        return hTag
+    } else if (el.type === "blockquote"){
+        const contentArray = formatContent(el.content)
+        const blockTag = <blockquote>{contentArray}</blockquote>
+        return blockTag
+    } else if (el.type === "h2"){
+        const contentArray = formatContent(el.content)
+        const hTag = <h2>{contentArray}</h2>
+        return hTag
+    } else if (el.type === "h2"){
+        const contentArray = formatContent(el.content)
+        const hTag = <h2>{contentArray}</h2>
+        return hTag
     }
   })
     const jsxArray = [<em>I have content</em>, "I also have content"]
