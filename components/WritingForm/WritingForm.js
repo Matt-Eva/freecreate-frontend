@@ -202,6 +202,7 @@ function WritingForm() {
         i++
     }
     console.log(structuredArray)
+    setSubmission(structuredArray)
       
       const clean = cleanContent(content)
     // const newWriting = {
@@ -221,24 +222,105 @@ function WritingForm() {
 
   const submissionContent = submission.map(el =>{
      if (el.type === "p"){
-         let content = <strong></strong>
+         let contentArray = []
          let i = 0
          while (i < el.content.length){
-            if (el.content[i] === "<strong>"){
+            i++
+             if (el.content[i] === "<br>"){
+                 contentArray.push(<br/>)
+             }
+            else if (el.content[i] === "<strong>"){
                 let d = i
                 let strongArray = []
-                while (el.content[d] !== "</strong>"){
+                while (el.content[d + 1] !== "</strong>"){
+                    d++
                     if (el.content[d] === "<em>"){
                         let q = d
-                        while(el.content[q] !== "</em>"){
-
+                        let emArray = []
+                        while(el.content[q + 1] !== "</em>"){
+                            q++
+                            if (el.content[q] === "<s>"){
+                                let z = q
+                                let sArray = []
+                                while (el.content[z + 1] !== "</s>"){
+                                    z++
+                                    if (el.content[z] === "<u>"){
+                                        let w = z
+                                        let uArray = []
+                                        while(el.content[w + 1] !=="</u>"){
+                                            w++
+                                            uArray.push(el.content[w])
+                                        }
+                                        const uString = <u>{uArray}</u>
+                                        sArray.push(uString)
+                                        z = w + 1
+                                    } else{
+                                        sArray.push(el.content[z])
+                                    }
+                                }
+                                const sString = <u>{sArray}</u>
+                                emArray.push(sString)
+                                q = z + 1
+                            } else if (el.content[q] === "<u>"){
+                                let s = q
+                                let uArray = []
+                                while(el.content[s+1] !=="</u>"){
+                                    s++
+                                    uArray.push(el.content[s])
+                                }
+                                const uString = <u>{uArray}</u>
+                                emArray.push(uString)
+                                q = s + 1
+                            } else {
+                                emArray.push(el.content[q])
+                            }
                         }
+                        d = q + 1
+                        const emString = <em>{emArray}</em>
+                        strongArray.push(emString)
+                    } else if (el.content[d] === "<u>"){
+                        let u = d
+                        let uArray = []
+                        while (el.content[u + 1] !== "</u>"){
+                            u++
+                            if (el.content[u] === "<s>"){
+                                let w = u
+                                let sArray = []
+                                while(el.content[w + 1] !=="</s>"){
+                                    w++
+                                    sArray.push(el.content[w])
+                                }
+                                const sString = <s>{sArray}</s>
+                                uArray.push(sString)
+                                u = w + 1
+                            } else{
+                                uArray.push(el.content[u])
+                            }
+                        }
+                        const uString = <u>{uArray}</u>
+                        strongArray.push(uString)
+                        d = u + 1
+                    } else if (el.content[d] === "<s>"){
+                        let w = d
+                        let sArray = []
+                        while(el.content[w + 1] !=="</s>"){
+                            w++
+                            sArray.push(el.content[w])
+                        }
+                        const sString = <s>{sArray}</s>
+                        strongArray.push(sString)
+                        d = w + 1
+                    } else {
+                        strongArray.push(el.content[d])
                     }
                 }
                 const strongEl = <strong>{strongArray}</strong>
+                contentArray.push(strongEl)
             }
-         }
         }
+        const pTag = <p>{contentArray}</p>
+        return pTag
+    }
   })
     const jsxArray = [<em>I have content</em>, "I also have content"]
 
@@ -253,9 +335,7 @@ function WritingForm() {
         placeholder="Start writing..."
         className={styles.writingForm}
         />
-        <strong>
-            {jsxArray}
-        </strong>
+        {submissionContent}
          <div className={styles.genres}>
             <div>
                 <input type="checkbox" id="noGenre" checked={genres.noGenre} onChange={handleGenreSelection}/>
