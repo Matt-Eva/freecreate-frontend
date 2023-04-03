@@ -296,9 +296,9 @@ function WritingForm() {
                             sArray.push(content[s])
                         }
                     }
-                    const uString = <u>{uArray}</u>
-                    strongArray.push(uString)
-                    d = u + 1
+                    const sString = <u>{sArray}</u>
+                    strongArray.push(sString)
+                    d = s + 1
                 } else if (content[d] === "<u>"){
                     let w = d
                     let uArray = []
@@ -339,7 +339,7 @@ function WritingForm() {
                             sArray.push(content[z])
                         }
                     }
-                    const sString = <u>{sArray}</u>
+                    const sString = <s>{sArray}</s>
                     emArray.push(sString)
                     q = z + 1
                 } else if (content[q] === "<u>"){
@@ -359,6 +359,40 @@ function WritingForm() {
             i = q + 1
             const emString = <em>{emArray}</em>
             contentArray.push(emString)
+        } else if (content[i] === "<s>"){
+            let s = i
+            const sArray = []
+            while (content[s + 1] !== "</s>"){
+                s++
+                if (content[s] === "<u>"){
+                    let w = s
+                    let uArray = []
+                    while(content[w + 1] !=="</u>"){
+                        w++
+                        uArray.push(content[w])
+                    }
+                    const uString = <u>{uArray}</u>
+                    sArray.push(uString)
+                    s = w + 1
+                } else{
+                    sArray.push(content[s])
+                }
+            }
+            const sString = <s>{sArray}</s>
+            contentArray.push(sString)
+            i = s + 1
+        } else if (content[i] === "<u>"){
+            let w = i
+            let uArray = []
+            while(content[w + 1] !=="</u>"){
+                w++
+                uArray.push(content[w])
+            }
+            const uString = <u>{uArray}</u>
+            contentArray.push(uString)
+            i = w + 1
+        } else {
+            contentArray.push(content[i])
         }
     }
     return contentArray
