@@ -135,11 +135,10 @@ function WritingForm() {
                 content: []
             }
             const subArray = []
-            while(splitArray[d] !== '</h1>'){
-                subArray.push(splitArray[d])
+            while(splitArray[d + 1] !== '</h1>'){
                 d++
+                subArray.push(splitArray[d])
             }
-            subArray.push('</h1>')
             contentObj.content = subArray
             structuredArray.push(contentObj)
         } else if (splitArray[i] === '<h2>'){
@@ -149,11 +148,10 @@ function WritingForm() {
                 content: []
             }
             const subArray = []
-            while(splitArray[d] !== '</h2>'){
-                subArray.push(splitArray[d])
+            while(splitArray[d + 1] !== '</h2>'){
                 d++
+                subArray.push(splitArray[d])
             }
-            subArray.push('</h2>')
             contentObj.content = subArray
             structuredArray.push(contentObj)
         } else if (splitArray[i] === '<blockquote>'){
@@ -163,11 +161,10 @@ function WritingForm() {
                 content: []
             }
             const subArray = []
-            while(splitArray[d] !== '</blockquote>'){
-                subArray.push(splitArray[d])
+            while(splitArray[d + 1] !== '</blockquote>'){
                 d++
+                subArray.push(splitArray[d])
             }
-            subArray.push('</blockquote>')
             contentObj.content = subArray
             structuredArray.push(contentObj)
         } else if (splitArray[i] === '<ol>'){
@@ -177,11 +174,10 @@ function WritingForm() {
                 content: []
             }
             const subArray = []
-            while(splitArray[d] !== '</ol>'){
+            while(splitArray[d + 1] !== '</ol>'){
                 subArray.push(splitArray[d])
                 d++
             }
-            subArray.push('</ol>')
             contentObj.content = subArray
             structuredArray.push(contentObj)
         }else if (splitArray[i] === '<ul>'){
@@ -191,11 +187,10 @@ function WritingForm() {
                 content: []
             }
             const subArray = []
-            while(splitArray[d] !== '</ul>'){
+            while(splitArray[d + 1] !== '</ul>'){
                 subArray.push(splitArray[d])
                 d++
             }
-            subArray.push('</ul>')
             contentObj.content = subArray
             structuredArray.push(contentObj)
         }
@@ -224,7 +219,7 @@ function WritingForm() {
     let contentArray = []
     let i = 0
     while (i < content.length){
-        i++
+        
         if (content[i] === "<br>"){
             contentArray.push(<br/>)
         }
@@ -394,8 +389,13 @@ function WritingForm() {
         } else {
             contentArray.push(content[i])
         }
+        i++
     }
     return contentArray
+  }
+
+  function formatListContent(content){
+
   }
 
   const submissionContent = submission.map(el =>{
@@ -415,14 +415,14 @@ function WritingForm() {
         const contentArray = formatContent(el.content)
         const blockTag = <blockquote>{contentArray}</blockquote>
         return blockTag
-    } else if (el.type === "h2"){
-        const contentArray = formatContent(el.content)
-        const hTag = <h2>{contentArray}</h2>
-        return hTag
-    } else if (el.type === "h2"){
-        const contentArray = formatContent(el.content)
-        const hTag = <h2>{contentArray}</h2>
-        return hTag
+    } else if (el.type === "ol"){
+        const contentArray = formatListContent(el.content)
+        const olist = <ol>{contentArray}</ol>
+        return olist
+    } else if (el.type === "ul"){
+        const contentArray = formatListContent(el.content)
+        const uList = <ul>{contentArray}</ul>
+        return uList
     }
   })
     const jsxArray = [<em>I have content</em>, "I also have content"]

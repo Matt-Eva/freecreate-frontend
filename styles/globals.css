@@ -11,3 +11,7 @@ a {
   color: black;
   text-decoration: none;
 }
+
+blockquote {
+  margin-left: 50px;
+}
