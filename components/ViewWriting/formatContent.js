@@ -213,7 +213,6 @@ export default function formatContent(content){
         }
         i++
     }
-    console.log(contentArray)
     return contentArray
   }
 
