@@ -1,30 +1,55 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   console.log(import.meta.env.VITE_BACKEND_URL);
 
   useEffect(() => {
-    async function ping() {
+    async function me() {
       try {
-        const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/ping");
+        const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/me", {
+          credentials: "include",
+        });
         const data = await res.json();
         console.log(data);
       } catch (e) {
         console.error(e);
       }
     }
-    ping();
+    me();
   }, []);
+
+  async function login() {
+    const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/login", {
+      method: "POST",
+      headers: {
+        "CONTENT-TYPE": "application/json",
+      },
+      credentials: "include",
+    });
+
+    const data = await res.json();
+    console.log(data);
+  }
+
+  async function logout() {
+    const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/logout", {
+      method: "DELETE",
+      headers: {
+        "CONTENT-TYPE": "application/json",
+      },
+      credentials: "include",
+    });
+
+    const data = await res.json();
+    console.log(data);
+  }
 
   return (
     <>
-      <button>login</button>
-      <button>logout</button>
+      <button onClick={login}>login</button>
+      <button onClick={logout}>logout</button>
     </>
   );
 }
