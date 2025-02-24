@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Oauth from "./pages/auth/Oauth";
 
 import "./App.css";
 
@@ -50,6 +51,7 @@ function App() {
     <>
       <button onClick={login}>login</button>
       <button onClick={logout}>logout</button>
+      <Oauth />
     </>
   );
 }
